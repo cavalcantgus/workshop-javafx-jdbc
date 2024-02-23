@@ -3,17 +3,25 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import db.DbException;
+import gui.util.Alerts;
 import gui.util.Constraints;
+import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Department;
+import model.services.DepartmentService;
 
 public class DepartmentFormController implements Initializable{
 	
 	private Department entityDepartment;
+	
+	private DepartmentService departmentService;
 
 	@FXML
 	private TextField textFieldDepartmentId;
@@ -31,17 +39,42 @@ public class DepartmentFormController implements Initializable{
 	private Button buttonCancel;
 	
 	@FXML
-	public void onButtonSaveAction() {
-		System.out.println("SALVOU");
+	public void onButtonSaveAction(ActionEvent event) {
+		if (entityDepartment == null) {
+			throw new IllegalStateException("Entity was null");
+		}
+		if(departmentService == null) {
+			throw new IllegalStateException("Service was null");
+		}
+		try {
+			entityDepartment = getFormData();
+			departmentService.saveOrUpdate(entityDepartment);
+			Utils.currentStage(event).close();
+		}
+		catch(DbException e) {
+			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
+		}
+		
 	}
 	
+	private Department getFormData() {
+		Department obj = new Department();
+		obj.setId(Utils.tryParseToInt(textFieldDepartmentId.getText()));
+		obj.setName(textFieldDepartmentName.getText());
+		return obj;
+	}
+
 	public void setDepartment(Department entity) {
 		this.entityDepartment = entity;
 	}
 	
+	public void setDepartmentService(DepartmentService service) {
+		this.departmentService = service;
+	}
+	
 	@FXML
-	public void onButtonCancelAction() {
-		System.out.println("CANCELOU");
+	public void onButtonCancelAction(ActionEvent event) {
+		Utils.currentStage(event).close();
 	}
 	
 	@Override
