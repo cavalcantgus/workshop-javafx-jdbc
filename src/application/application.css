@@ -1,1 +1,16 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/* styles.css */
+
+.edit-button {
+    -fx-background-color: #CCCCCC;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-padding: 2px 5px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.edit-button:hover {
+    -fx-background-color: #AAAAAA;
+}
