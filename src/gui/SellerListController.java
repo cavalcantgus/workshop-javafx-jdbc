@@ -163,6 +163,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 				}
 				super.updateItem(obj, empty);
 				button.setOnAction(event -> removeEntity(obj));
+				setGraphic(null);
+
 			}
 		});
 	}

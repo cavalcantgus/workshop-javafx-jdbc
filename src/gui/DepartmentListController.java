@@ -168,6 +168,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 				}
 				super.updateItem(obj, empty);
 				button.setOnAction(event -> removeEntity(obj));
+				setGraphic(null);
 			}
 		});
 	}
